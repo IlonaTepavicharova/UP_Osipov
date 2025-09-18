@@ -22,7 +22,7 @@
                     <h1>Вступайте в наш виртуальный клуб</h1>
                     <p>Пожалуйста, введите ниже свои данные для связи в
                         Интернете:</p>
-                    <form action="/scripts/get-form-info.php" method="POST">
+                    <form action="../scripts/get-form-info.php" method="POST">
                         <fieldset>
                             <label for="first_name">Имя:</label> <input type="text" name="first_name" size="20" /><br />
                             <label for="last_name">Фамилия:</label> <input type="text" name="last_name"
