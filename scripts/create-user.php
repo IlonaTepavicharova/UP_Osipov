@@ -1,26 +1,30 @@
 <?php
-$first_name = trim($_REQUEST['first_name']);
-$last_name = trim($_REQUEST['last_name']);
-$email = trim($_REQUEST['email']);
-$url_site = trim($_REQUEST['url_site']);
-$vk = trim($_REQUEST['vk']);
-// подключаем файл  
+$first_name = trim($_REQUEST['first_name']); 
+$last_name = trim($_REQUEST['last_name']); 
+$email = trim($_REQUEST['email']); 
+$url_site = trim($_REQUEST['url_site']); 
+$vk = trim($_REQUEST['vk']); 
+$bio = trim($_REQUEST['bio']); 
 require("connect.php");
 $insert_sql = <<<HEREDOC
 INSERT INTO `users` (`first_name`, `last_name`, `email`, 
-`url_site`, `vk`) VALUES ( 
+`url_site`, `vk`, `bio`) VALUES ( 
 '$first_name', 
 '$last_name', 
 '$email', 
 '$url_site', 
-'$vk'
+'$vk', 
+'$bio' 
 ) 
-HEREDOC;
+HEREDOC; 
 // выполняем запрос вставки данных о пользователе 
-$mysqli->query($insert_sql) or die('Ошибка вставки данных: ' .
-    $mysqli->errno . '. ' . $mysqli->error);
+$mysqli->query($insert_sql) or die('Ошибка вставки данных: ' . 
+$mysqli->errno . '. ' . $mysqli->error);
+header("Location: show-user.php?user_id=" . $mysqli->insert_id); 
+ 
+
 ?>
-<html>
+<!-- <html>
 
 <head>
     <link href="../css/phpMM.css" rel="stylesheet" type="text/css" />
@@ -47,4 +51,4 @@ $mysqli->query($insert_sql) or die('Ошибка вставки данных: ' 
     </div>
 </body>
 
-</html>
+</html> -->
