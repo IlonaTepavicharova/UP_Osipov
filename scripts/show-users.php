@@ -13,9 +13,8 @@ if ($res) {
             "<li> 
 <a href='show-user.php?user_id=%d'>%s %s</a> 
 (<a href='mailto:%s'>%s</a>) 
-<a href='delete-user.php?user_id=%d'><img 
-class='delete_user' src='../images/delete.png' width=15px 
-/></a> 
+<a href='javascript:delete_user(%d)'><img class='delete_user' 
+src='../images/delete.png' width=15px /></a> 
 </li>",
             $row['user_id'],
             $row['first_name'],
@@ -42,7 +41,7 @@ class='delete_user' src='../images/delete.png' width=15px
             } 
 } 
         </script>
-        <!—- -->
+
 </head>
 
 <body>
@@ -51,7 +50,6 @@ class='delete_user' src='../images/delete.png' width=15px
             <h1>PHP & MySQL: The Missing Manual</h1>
         </div>
         <div id="example">Список</div>
-        <!—- подключаем файл меню -->
             <?php require("menu.php"); ?>
             <div id="content">
                 <?php echo $html; ?>
