@@ -43,45 +43,44 @@ if (!getimagesize($_FILES["user_pic"]["tmp_name"])) {
     exit;
 }
 
-$image_filename = $_FILES["user_pic"]["name"]; 
-$image_info = $_FILES["user_pic"]["tmp_name"]; 
-$image_mime_type = $_FILES["user_pic"]["type"]; 
-$image_size = $_FILES["user_pic"]["size"]; 
+$image_filename = $_FILES["user_pic"]["name"];
+$image_info = $_FILES["user_pic"]["tmp_name"];
+$image_mime_type = $_FILES["user_pic"]["type"];
+$image_size = $_FILES["user_pic"]["size"];
 $image_data = file_get_contents($_FILES["user_pic"]["tmp_name"]);
 
-$user_id = $mysqli->insert_id; 
+$user_id = $mysqli->insert_id;
 
-$insert_image_sql = <<<HEREDOC
-INSERT INTO `images` (`user_id`, `filename`, `mime_type`, 
-`file_size`, `image_data`) VALUES ( 
-$user_id, 
-'$image_filename', 
-'$image_mime_type', 
-'$image_size', 
-'$image_data' 
-) 
-HEREDOC;
+$insert_image_sql = sprintf("INSERT INTO `images` (`user_id`, 
+`filename`, `mime_type`, `file_size`, `image_data`) VALUES ( 
+%d, '%s', '%s', '%s', '%s')",
+    $user_id,
+    $mysqli->real_escape_string($image_filename),
+    $mysqli->real_escape_string($image_size),
+    $mysqli->real_escape_string($image_size),
+    $mysqli->real_escape_string($image_data)
+);
 
-if (!$mysqli->query($insert_image_sql)) { 
-header("Location: show-error.php?error_message=Ошибка вставки 
-изображения&system_error_message=" . $mysqli->error);  
-exit; 
-};
+if (!$mysqli->query($insert_image_sql)) {
+    header("Location: show-error.php?error_message=Ошибка вставки 
+изображения&system_error_message=" . $mysqli->error);
+    exit;
+}
+;
 
-$insert_sql = <<<HEREDOC
-INSERT INTO `users` (`first_name`, `last_name`, `email`, 
-`url_site`, `vk`, `bio`) VALUES ( 
-'$first_name', 
-'$last_name', 
-'$email', 
-'$url_site', 
-'$vk', 
-'$bio',  
-) 
-HEREDOC;
+$insert_sql = sprintf("INSERT INTO `users` ( `first_name`, 
+`last_name`, `email`, `url_site`, `vk`, `bio`) VALUES ('%s', '%s', 
+'%s', '%s', '%s', '%s')",
+    $mysqli->real_escape_string($first_name),
+    $mysqli->real_escape_string($last_name),
+    $mysqli->real_escape_string($email),
+    $mysqli->real_escape_string($url_site),
+    $mysqli->real_escape_string($vk),
+    $mysqli->real_escape_string($bio)
+);
 
-header("Location: show-user.php?user_id=" . $user_id); 
-exit; 
+header("Location: show-user.php?user_id=" . $user_id);
+exit;
 
 
 
