@@ -35,16 +35,23 @@ class='delete_user' src='../images/delete.png' width=15px
 
 <head>
     <link href="../css/phpMM.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript">
+            function delete_user(user_id) {
+                if (confirm("Вы уверены, что хотите удалить этого пользователя ?\nВернуть его уже не удастся!")) { 
+                window.location = "delete-user.php?user_id=" + user_id;
+            } 
+} 
+        </script>
+        <!—- -->
 </head>
 
 <body>
     <div class="wrap">
         <div id="header">
-            <h1>PHP & MySQL: The Missing
-                Manual</h1>
+            <h1>PHP & MySQL: The Missing Manual</h1>
         </div>
         <div id="example">Список</div>
-
+        <!—- подключаем файл меню -->
             <?php require("menu.php"); ?>
             <div id="content">
                 <?php echo $html; ?>
