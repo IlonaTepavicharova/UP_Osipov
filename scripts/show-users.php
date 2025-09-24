@@ -1,6 +1,12 @@
 <?php
 // подключение к серверу 
 require("connect.php");
+// если есть параметр msg в строке запроса 
+// получаем его значение и встраиваем его в строку html  
+if (isset($_REQUEST['msg'])) {
+    $msg = sprintf("<div id='messages'><div class='success'><p>%s</p></div></div>", $_REQUEST['msg']);
+}
+;
 // создание строки инструкции SELECT 
 $select_sql = "SELECT `user_id`, `last_name`, `first_name`, `email` 
 FROM `users`";
@@ -38,12 +44,10 @@ src='../images/delete.png' width=15px /></a>
             function delete_user(user_id) {
                 if (confirm("Вы уверены, что хотите удалить этого пользователя ?\nВернуть его уже не удастся!")) { 
                 window.location = "delete-user.php?user_id=" + user_id;
+                } 
             } 
-} 
         </script>
-
 </head>
-
 <body>
     <div class="wrap">
         <div id="header">
@@ -52,7 +56,10 @@ src='../images/delete.png' width=15px /></a>
         <div id="example">Список</div>
             <?php require("menu.php"); ?>
             <div id="content">
-                <?php echo $html; ?>
+                <?php
+                echo $msg;
+                echo $html;
+                ?>
             </div>
             <div id="footer"></div>
     </div>
