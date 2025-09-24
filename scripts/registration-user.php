@@ -13,11 +13,7 @@
         <div id="example">Регистрация</div>
         <?php require("menu.php"); ?>
         <div id="content"></div>
-        <div class="wrap">
-            <div id="header">
-                <h1>PHP & MySQL: The Missing Manual</h1>
-            </div>
-            <div id="example">Регистрация</div>
+        
             <div id="content">
                 <h1>Вступайте в наш виртуальный клуб</h1>
                 <p>Пожалуйста, введите ниже свои данные для связи в
@@ -43,10 +39,6 @@
                     </fieldset>
                     </fieldset>
                     <br />
-                    <fieldset class="center">
-                        <input type="submit" value="Вступить в клуб" />
-                        <input type="reset" value="Очистить и начать все сначала" />
-                    </fieldset>
                 </form>
             </div>
             <div id="footer"></div>
