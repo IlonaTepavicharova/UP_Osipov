@@ -39,8 +39,13 @@ $res = $mysqli->query($select_user);
 // идем дальше
 if ($mysqli->affected_rows == 1) {
     $row = $res->fetch_array();
-    $current_user_id = $row['user_id'];
-    $current_username = $row['username'];
+    $user_id = $row['user_id'];
+    // сохраняем данные авторизованного пользователя 
+    setcookie('user_id', $user_id);
+    setcookie('username', $row['username']);
+    // перенаправляем пользователя на его профиль
+    header("Location: /scripts/show-user.php?user_id=" . $user_id);
+
 } else {
     // иначе опять: 
 // отправляем заголовки
