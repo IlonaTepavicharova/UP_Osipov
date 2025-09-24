@@ -6,24 +6,9 @@ $url_site = trim($_REQUEST['url_site']);
 $vk = trim($_REQUEST['vk']);
 $bio = trim($_REQUEST['bio']);
 require("connect.php");
-$insert_sql = <<<HEREDOC
-INSERT INTO `users` (`first_name`, `last_name`, `email`, 
-`url_site`, `vk`, `bio`, `user_pic_path`) VALUES ( 
-'$first_name', 
-'$last_name', 
-'$email', 
-'$url_site', 
-'$vk', 
-'$bio', 
-'$upload_filename' 
-) 
-HEREDOC;
+
 // выполняем запрос вставки данных о пользователе 
-if (!$mysqli->query($insert_sql)) {
-    header("Location: show-error.php?error_message=Ошибка вставки 
-данных&system_error_message=" . $mysqli->error);
-    exit;
-}
+
 if ($_FILES["user_pic"]["error"] != 0) {
     switch ($_FILES["user_pic"]["error"]) {
         case 1:
@@ -51,7 +36,42 @@ if (is_uploaded_file($_FILES["user_pic"]["tmp_name"]) == 0) {
     header("Location: show-error.php?error_message=Сервер не может отправлять локальные файлы&system_error_message=$system_error_message");
     exit;
 }
+if (!getimagesize($_FILES["user_pic"]["tmp_name"])) {
+    $system_error_message = "Файл: " . $_FILES["user_pic"]["tmp_name"]
+        . " не является файлом изображения";
+    header("Location: show-error.php?error_message=Вы выбрали файл, для своего фото, который не является dизображением&system_error_message=$system_error_message");
+    exit;
+}
+$now = time();
+$upload_filename = "../upload/" . $now . "_" . $_FILES["user_pic"]["name"];
+if (
+    !move_uploaded_file(
+        $_FILES["user_pic"]["tmp_name"],
+        $upload_filename
+    )
+) {
+    $system_error_message = "Ошибка сохранения файла в директории сервера: " . $upload_filename;
+    header("Location: show-error.php?error_message=Возникла проблема с сохранением вашего файла на сервере&system_error_message=$system_error_message");
+    exit;
+}
+$insert_sql = <<<HEREDOC
+INSERT INTO `users` (`first_name`, `last_name`, `email`, 
+`url_site`, `vk`, `bio`, `user_pic_path`) VALUES ( 
+'$first_name', 
+'$last_name', 
+'$email', 
+'$url_site', 
+'$vk', 
+'$bio', 
+'$upload_filename' 
+) 
+HEREDOC;
 
+if (!$mysqli->query($insert_sql)) {
+    header("Location: show-error.php?error_message=Ошибка вставки 
+данных&system_error_message=" . $mysqli->error);
+    exit;
+}
 
 ?>
 <!-- <html>

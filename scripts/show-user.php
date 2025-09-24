@@ -3,8 +3,7 @@ require("connect.php");
 // извлекаем данные из суперглобального массива REQUEST 
 $user_id = $_REQUEST["user_id"];
 // создание строки инструкции SELECT 
-$select_sql = "SELECT * FROM `users` WHERE `user_id` = " .
-    $user_id;
+$select_sql = "SELECT * FROM `users` WHERE `user_id` = " . $user_id;
 // выполнение запроса 
 $res = $mysqli->query($select_sql);
 if ($res) {
@@ -13,7 +12,7 @@ if ($res) {
     $first_name = $row['first_name'];
     $last_name = $row['last_name'];
     // изображение по умолчанию 
-    $user_image = "../images/missing_user.png";
+    $user_image = $row['user_pic_path'];
     $bio = preg_replace('/[\r\n]+/', '<p>', $row['bio']);
     $email = $row['email'];
     $url_site = $row['url_site'];
