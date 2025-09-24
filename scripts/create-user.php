@@ -1,10 +1,10 @@
 <?php
-$first_name = trim($_REQUEST['first_name']); 
-$last_name = trim($_REQUEST['last_name']); 
-$email = trim($_REQUEST['email']); 
-$url_site = trim($_REQUEST['url_site']); 
-$vk = trim($_REQUEST['vk']); 
-$bio = trim($_REQUEST['bio']); 
+$first_name = trim($_REQUEST['first_name']);
+$last_name = trim($_REQUEST['last_name']);
+$email = trim($_REQUEST['email']);
+$url_site = trim($_REQUEST['url_site']);
+$vk = trim($_REQUEST['vk']);
+$bio = trim($_REQUEST['bio']);
 require("connect.php");
 $insert_sql = <<<HEREDOC
 INSERT INTO `users` (`first_name`, `last_name`, `email`, 
@@ -19,11 +19,34 @@ INSERT INTO `users` (`first_name`, `last_name`, `email`,
 ) 
 HEREDOC;
 // выполняем запрос вставки данных о пользователе 
-if (!$mysqli->query($insert_sql)) {  
-header("Location: show-error.php?error_message=Ошибка вставки 
-данных&system_error_message=" . $mysqli->error); 
-exit;  
+if (!$mysqli->query($insert_sql)) {
+    header("Location: show-error.php?error_message=Ошибка вставки 
+данных&system_error_message=" . $mysqli->error);
+    exit;
 }
+if ($_FILES["user_pic"]["error"] != 0) {
+    switch ($_FILES["user_pic"]["error"]) {
+        case 1:
+            $system_error_message = "Превышен максимальный размер 
+файла указанный в файле php.ini";
+            break;
+        case 2:
+            $system_error_message = "Превышен максимальный размер 
+файла указанный в форме HTML";
+            break;
+        case 3:
+            $system_error_message = "Была отправлена только часть 
+файла";
+            break;
+        case 4:
+            $system_error_message = "Файл для отправки не был 
+выбран";
+    }
+    header("Location: show-error.php?error_message=Сервер не может получить выбранное вами изображение&system_error_message=$system_error_message");
+    exit;
+}
+
+
 
 ?>
 <!-- <html>
