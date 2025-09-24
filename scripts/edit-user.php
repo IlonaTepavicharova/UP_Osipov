@@ -1,7 +1,7 @@
 <?php
 // подключение к серверу 
 require("connect.php");
-require("authorize.php"); 
+require("authorize.php");
 $user_id = $_REQUEST["user_id"];
 // создание строки инструкции SELECT 
 $select_sql = sprintf(
@@ -10,21 +10,22 @@ $select_sql = sprintf(
 );
 // выполнение запроса 
 $res = $mysqli->query($select_sql);
-// если запрос выполнен получаем данные пользователя 
+// если запрос выполнен получаем данные пользователя
 if ($res) {
     $row = $res->fetch_array();
     $first_name = $row['first_name'];
+    $username = $row['username'];
+    $password = $row['password'];
     $last_name = $row['last_name'];
     $email = $row['email'];
     $url_site = $row['url_site'];
     $vk = $row['vk'];
     $bio = $row['bio'];
 } else {
-    header("Location: show-error.php?error_message=Ошибка вывода 
-данных пользователя для редактирования&system_error_message=" .
-        $mysqli->error);
+    header("Location: show-error.php?error_message=Ошибка вывода данных пользователя для редактирования&system_error_message=" . $mysqli->error);
     exit;
 }
+
 ?>
 <html>
 
@@ -39,40 +40,42 @@ if ($res) {
                 Manual</h1>
         </div>
         <div id="example">Редактор</div>
-            <?php require("menu.php"); ?>
-            <div id="content">
-                <h1>Виртуальный клуб</h1>
-                <p>Форма правки данных пользователя:</p>
-                        <form action="../scripts/update-user.php?user_id=<?php echo
-                            $user_id; ?>" method="POST" enctype="multipart/form-data">
-                            <fieldset>
-                                <label for="first_name">Имя:</label> <input type="text" name="first_name" size="20"
-                                    value="<?php echo
-                                        $first_name; ?>" /><br />
-                                <label for="last_name">Фамилия:</label> <input type="text" name="last_name" size="20"
-                                    value="<?php
-                                    echo $last_name; ?>" /><br />
-                                <label for="email">Адрес электронной почты:</label>
-                                <input type="text" name="email" size="50" value="<?php
-                                echo $email; ?>" /><br />
-                                <label for="url_site">URL-адрес сайта:</label> <input type="text" name="url_site"
-                                    size="50" value="<?php echo
-                                        $url_site; ?>" /><br />
-                                <label for="vk">Идентификатор в VK:</label> <input type="text" name="vk" size="20"
-                                    value="<?php echo
-                                        $vk; ?>" /><br />
-                                <label for="user_pic">Прикрепить фото: </label> <input type="file" name="user_pic"
-                                    size="30" /><br />
-                                <label for="bio">Биография:</label> <textarea name="bio" cols="40" rows="10"><?php echo
-                                    $bio; ?></textarea>
-                            </fieldset>
-                            <br />
-                            <fieldset class="center">
-                                <input type="submit" value="Сохранить" />
-                            </fieldset>
-                        </form>
-            </div>
-            <div id="footer"></div>
+        <?php require("menu.php"); ?>
+        <div id="content">
+            <h1>Виртуальный клуб</h1>
+            <p>Форма правки данных пользователя:</p>
+            <form action="../scripts/update-user.php?user_id=<?php echo
+                $user_id; ?>" method="POST" enctype="multipart/form-data">
+                <form action="/scripts/update-user.php?user_id=<?php echo $user_id; ?>" method="POST"
+                    enctype="multipart/form-data">
+                    <fieldset>
+                        <label for="first_name">Имя:</label> <input type="text" name="first_name" size="20"
+                            value="<?php echo $first_name; ?>" /><br />
+                        <label for="last_name">Фамилия:</label> <input type="text" name="last_name" size="20"
+                            value="<?php echo $last_name; ?>" /><br />
+                        <label for="username">Имя пользователя:</label> <input type="text" name="username" size="20"
+                            class="required" value="<?php echo $username; ?>" /><br />
+                        <label for="password">Пароль:</label> <input type="password" id="password" name="password"
+                            size="20" class="required password" value="<?php echo $password; ?>" /><br />
+                        <label for="email">Адрес электронной почты:</label> <input type="text" name="email" size="50"
+                            value="<?php echo $email; ?>" /><br />
+                        <label for="url_site">URL-адрес сайта:</label> <input type="text" name="url_site" size="50"
+                            value="<?php echo
+                                $url_site; ?>" /><br />
+                        <label for="vk">Идентификатор в VK:</label> <input type="text" name="vk" size="20" value="<?php echo
+                            $vk; ?>" /><br />
+                        <label for="user_pic">Прикрепить фото: </label> <input type="file" name="user_pic"
+                            size="30" /><br />
+                        <label for="bio">Биография:</label> <textarea name="bio" cols="40" rows="10"><?php echo
+                            $bio; ?></textarea>
+                    </fieldset>
+                    <br />
+                    <fieldset class="center">
+                        <input type="submit" value="Сохранить" />
+                    </fieldset>
+                </form>
+        </div>
+        <div id="footer"></div>
     </div>
 </body>
 
