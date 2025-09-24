@@ -45,7 +45,12 @@ if ($_FILES["user_pic"]["error"] != 0) {
     header("Location: show-error.php?error_message=Сервер не может получить выбранное вами изображение&system_error_message=$system_error_message");
     exit;
 }
-
+if (is_uploaded_file($_FILES["user_pic"]["tmp_name"]) == 0) {
+    $system_error_message = "Запрос на отправку локального файла: " .
+        $_FILES["user_pic"]["tmp_name"];
+    header("Location: show-error.php?error_message=Сервер не может отправлять локальные файлы&system_error_message=$system_error_message");
+    exit;
+}
 
 
 ?>
