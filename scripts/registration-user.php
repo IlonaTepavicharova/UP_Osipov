@@ -18,7 +18,7 @@
             <h1>Вступайте в наш виртуальный клуб</h1>
             <p>Пожалуйста, введите ниже свои данные для связи в
                 Интернете:</p>
-            <form action="/scripts/create-user.php" method="POST" enctype="multipart/form-data">
+            <form action="../scripts/create-user.php" method="POST" enctype="multipart/form-data">
                 <fieldset>
                     <label for="first_name">Имя:</label> <input type="text" name="first_name" size="20" /><br />
                     <label for="last_name">Фамилия:</label> <input type="text" name="last_name" size="20" /><br />
