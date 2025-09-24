@@ -42,30 +42,48 @@ if (!getimagesize($_FILES["user_pic"]["tmp_name"])) {
     header("Location: show-error.php?error_message=Вы выбрали файл, для своего фото, который не является dизображением&system_error_message=$system_error_message");
     exit;
 }
-$now = time();
-$upload_filename = "../upload/" . $now . "_" . $_FILES["user_pic"]["name"];
-if (
-    !move_uploaded_file(
-        $_FILES["user_pic"]["tmp_name"],
-        $upload_filename
-    )
-) {
-    $system_error_message = "Ошибка сохранения файла в директории сервера: " . $upload_filename;
-    header("Location: show-error.php?error_message=Возникла проблема с сохранением вашего файла на сервере&system_error_message=$system_error_message");
-    exit;
-}
+
+$image_filename = $_FILES["user_pic"]["name"]; 
+$image_info = $_FILES["user_pic"]["tmp_name"]; 
+$image_mime_type = $_FILES["user_pic"]["type"]; 
+$image_size = $_FILES["user_pic"]["size"]; 
+$image_data = file_get_contents($_FILES["user_pic"]["tmp_name"]);
+
+$user_id = $mysqli->insert_id; 
+
+$insert_image_sql = <<<HEREDOC
+INSERT INTO `images` (`user_id`, `filename`, `mime_type`, 
+`file_size`, `image_data`) VALUES ( 
+$user_id, 
+'$image_filename', 
+'$image_mime_type', 
+'$image_size', 
+'$image_data' 
+) 
+HEREDOC;
+
+if (!$mysqli->query($insert_image_sql)) { 
+header("Location: show-error.php?error_message=Ошибка вставки 
+изображения&system_error_message=" . $mysqli->error);  
+exit; 
+};
+
 $insert_sql = <<<HEREDOC
 INSERT INTO `users` (`first_name`, `last_name`, `email`, 
-`url_site`, `vk`, `bio`, `user_pic_path`) VALUES ( 
+`url_site`, `vk`, `bio`) VALUES ( 
 '$first_name', 
 '$last_name', 
 '$email', 
 '$url_site', 
 '$vk', 
-'$bio', 
-'$upload_filename' 
+'$bio',  
 ) 
 HEREDOC;
+
+header("Location: show-user.php?user_id=" . $user_id); 
+exit; 
+
+
 
 if (!$mysqli->query($insert_sql)) {
     header("Location: show-error.php?error_message=Ошибка вставки 
@@ -73,32 +91,7 @@ if (!$mysqli->query($insert_sql)) {
     exit;
 }
 
+
+
+
 ?>
-<!-- <html>
-
-<head>
-    <link href="../css/phpMM.css" rel="stylesheet" type="text/css" />
-</head>
-
-<body>
-    <div class="wrap">
-        <div id="header">
-            <h1>PHP & MySQL: The Missing Manual</h1>
-        </div>
-        <div id="example">Регистрация</div>
-            <?php require("menu.php"); ?>
-            <div id="content">
-                <p>Это запись той информации, которую вы отправили:</p>
-                <p>
-                    Имя: <?php echo $first_name . " " . $last_name; ?><br />
-                    Адрес электронной почты: <?php echo $email; ?><br />
-                    <a href="//<?php echo $url_site; ?>" target="_blank">Ваш
-                        персональный сайт</a><br />
-                    <a href="https://vk.com/<?php echo $vk; ?>" target="_blank">Ваша страница ВКонтакте<br />
-                </p>
-            </div>
-            <div id="footer"></div>
-    </div>
-</body>
-
-</html> -->
