@@ -44,22 +44,27 @@ if (!getimagesize($_FILES["user_pic"]["tmp_name"])) {
 }
 $first_name = trim($_REQUEST['first_name']);
 $last_name = trim($_REQUEST['last_name']);
+$username = trim($_REQUEST['username']);
+$password = trim($_REQUEST['password']);
 $email = trim($_REQUEST['email']);
 $url_site = trim($_REQUEST['url_site']);
 $vk = trim($_REQUEST['vk']);
 $bio = trim($_REQUEST['bio']);
+
 require("connect.php");
 // создаем строку sql-запроса на вставку данных 
-$insert_sql = sprintf("INSERT INTO `users` ( `first_name`, 
-`last_name`, `email`, `url_site`, `vk`, `bio`) VALUES ('%s', '%s', 
-'%s', '%s', '%s', '%s')",
+$insert_sql = sprintf(
+    "INSERT INTO `users` ( `first_name`, `last_name`, `username`, `password`, `email`, `url_site`, `vk`, `bio`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
     $mysqli->real_escape_string($first_name),
     $mysqli->real_escape_string($last_name),
+    $mysqli->real_escape_string($username),
+    $mysqli->real_escape_string($password),
     $mysqli->real_escape_string($email),
     $mysqli->real_escape_string($url_site),
     $mysqli->real_escape_string($vk),
     $mysqli->real_escape_string($bio)
 );
+
 // вставка данных о пользователе втаблицу users 
 if (!$mysqli->query($insert_sql)) {
     header("Location: show-error.php?error_message=Ошибка вставки 
