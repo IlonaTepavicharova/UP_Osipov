@@ -8,15 +8,16 @@ $bio = trim($_REQUEST['bio']);
 require("connect.php");
 $insert_sql = <<<HEREDOC
 INSERT INTO `users` (`first_name`, `last_name`, `email`, 
-`url_site`, `vk`, `bio`) VALUES ( 
+`url_site`, `vk`, `bio`, `user_pic_path`) VALUES ( 
 '$first_name', 
 '$last_name', 
 '$email', 
 '$url_site', 
 '$vk', 
-'$bio' 
+'$bio', 
+'$upload_filename' 
 ) 
-HEREDOC; 
+HEREDOC;
 // выполняем запрос вставки данных о пользователе 
 if (!$mysqli->query($insert_sql)) {  
 header("Location: show-error.php?error_message=Ошибка вставки 
