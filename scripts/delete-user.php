@@ -15,7 +15,8 @@ if ($res) {
     $res = $mysqli->query($delete_users_sql);
     if ($res) {
         // возвращаем пользователя к исходному сценарию 
-        header("Location: show-users.php");
+        $msg = "Указанный пользователь был удален";
+        header("Location: show-users.php?msg=$msg");
     } else {
         header("Location: show-error.php?error_message=Ошибка 
 удаления выбранного пользователя&system_error_message=" .
