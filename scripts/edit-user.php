@@ -38,14 +38,11 @@ if ($res) {
                 Manual</h1>
         </div>
         <div id="example">Редактор</div>
-        <!—- подключаем файл меню -->
             <?php require("menu.php"); ?>
             <div id="content">
                 <h1>Виртуальный клуб</h1>
                 <p>Форма правки данных пользователя:</p>
-                <!—- файл update-user.php будет создан ниже -->
-                    <!—- ID пользователя передаем в GET параметре -->
-                        <form action="/scripts/update-user.php?user_id=<?php echo
+                        <form action="../scripts/update-user.php?user_id=<?php echo
                             $user_id; ?>" method="POST" enctype="multipart/form-data">
                             <fieldset>
                                 <label for="first_name">Имя:</label> <input type="text" name="first_name" size="20"
