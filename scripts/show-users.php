@@ -1,6 +1,7 @@
 <?php
 // подключение к серверу 
 require("connect.php");
+require("authorize.php"); 
 // если есть параметр msg в строке запроса 
 // получаем его значение и встраиваем его в строку html  
 if (isset($_REQUEST['msg'])) {

@@ -1,6 +1,7 @@
 <?php
 // подключение к серверу 
 require("connect.php");
+require("authorize.php"); 
 $user_id = $_REQUEST["user_id"];
 // создание строки инструкции SELECT 
 $select_sql = sprintf(

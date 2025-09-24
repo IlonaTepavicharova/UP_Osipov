@@ -1,5 +1,6 @@
 <?php
 require("connect.php");
+require("authorize.php"); 
 // получение ID из GET-параметра  
 $user_id = $_REQUEST['user_id'];
 // получение данных из формы пользователя 

@@ -1,5 +1,6 @@
 <?php
 require("connect.php");
+require("authorize.php"); 
 // извлекаем данные из суперглобального массива REQUEST 
 $user_id = $_REQUEST["user_id"];
 // создание строки инструкции SELECT 
