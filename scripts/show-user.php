@@ -3,20 +3,18 @@ require("connect.php");
 // извлекаем данные из суперглобального массива REQUEST 
 $user_id = $_REQUEST["user_id"];
 // создание строки инструкции SELECT 
-$select_sql = "SELECT * FROM `users` WHERE `user_id` = " . $user_id;
-// выполнение запроса 
-$res = $mysqli->query($select_sql);
-if ($res) {
-    // получаем возвращаемую строку 
-    $row = $res->fetch_array();
-    $first_name = $row['first_name'];
-    $last_name = $row['last_name'];
-    // изображение по умолчанию 
-    $user_image = $row['user_pic_path'];
-    $bio = preg_replace('/[\r\n]+/', '<p>', $row['bio']);
-    $email = $row['email'];
-    $url_site = $row['url_site'];
-    $vk = $row['vk'];
+$select_query = "SELECT * FROM `users` WHERE `user_id` = " . $user_id; 
+$res = $mysqli->query($select_query); 
+if ($res) { 
+$row = $res->fetch_array(); 
+$first_name = $row['first_name']; 
+$last_name = $row['last_name']; 
+// сценарий может быть указан в теге источника изображения - src 
+$user_image = "show-image.php?user_id=" . $user_id; 
+$bio = preg_replace('/[\r\n]+/', '<p>', $row['bio']); 
+$email = $row['email']; 
+$url_site = $row['url_site']; 
+$vk = $row['vk']; 
 } else {
     header("Location: show-error.php?error_message=Ошибка получения пользователя с ID = $user_id&system_error_message=Невозможно обработать запрос на извлечение данных пользователя");
     exit;
